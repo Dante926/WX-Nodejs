@@ -2,12 +2,12 @@
   <!-- 搜索框 -->
   <view class="search">
     <image class="search-icon" src="../../images/搜索.png" />
-    <input value="{{_search}}" type="text" placeholder="搜索" bindinput="getSearch"/>
-    <image src="../../images/删除操作.png" class="close-icon" wx:if="{{_search.length > 0}}" bindtap="deleteSearch"/>
+    <input value="{{_search}}" type="text" placeholder="搜索" bindinput="getSearch" />
+    <image src="../../images/删除操作.png" class="close-icon" wx:if="{{_search.length > 0}}" bindtap="deleteSearch" />
   </view>
 
-<!-- 搜索历史 -->
-  <view wx:if="{{false}}" class="empty-search" wx:if="{{search.length === 0}}"> 
+  <!-- 搜索历史 -->
+  <view wx:if="{{false}}" class="empty-search" wx:if="{{search.length === 0}}">
     <view class="search-log">
       <text>搜索历史</text>
       <image class="delete-icon" bindtap="deleteLog" src="../../images/删除.png" />
@@ -20,7 +20,7 @@
 
   <view class="result-search" wx:else>
     <view class="search-item" wx:for="{{searchRes}}" wx:key="index" bindtap="toDetail" data-info="{{item}}">
-      <text class="search-item-text">{{item.name}}</text>
+      <text class="search-item-text">{{item.title}}</text>
       <image class="search-right" src="../../images/大于号.png" />
     </view>
   </view>

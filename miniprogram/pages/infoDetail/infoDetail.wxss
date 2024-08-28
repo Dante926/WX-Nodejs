@@ -53,11 +53,7 @@
   margin-top: 10rpx;
   color: #666;
   /* text-indent: 2em; */
-}
-
-.desc-text1-contain .htmlcontent img {
-  max-width: 80%; /* 使图片在容器内的宽度不超过 100% */
-  height: auto;    /* 保持图片的纵横比 */
+  overflow: hidden; /* 防止内容溢出 */
 }
 
 .bottom {
@@ -76,7 +72,7 @@
   background-color: #f3f3f3;
   align-items: center;
   border-radius: 30rpx;
-  width: 40%;
+  width: 80%;
 }
 
 .icon-comment {

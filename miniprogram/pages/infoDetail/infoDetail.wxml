@@ -2,7 +2,7 @@
   <!-- 轮播图 -->
   <swiper class="banner" indicator-dots="true" autoplay="true" interval="2000" duration="500">
     <swiper-item>
-      <image class="banner-image" src="{{info.imgList}}" />
+      <image class="banner-image" src="{{info.imgList ? info.imgList : 'http://127.0.0.1:8089' + info.cover}}" />
     </swiper-item>
   </swiper>
 
@@ -11,6 +11,10 @@
 
   <!-- 详细信息 -->
   <view class="container">
+    <view class="date item">
+      <text class="label">新闻作者:</text>
+      <text class="label-time">{{info.username}}</text>
+    </view>
     <view class="date item">
       <text class="label">编辑时间:</text>
       <text class="label-time">{{info.editTime}}</text>
@@ -21,7 +25,7 @@
   <view class="desc item">
     <view class="desc-text1">新闻内容：</view>
     <view class="desc-text1-contain">
-      <rich-text nodes="{{info.content}}" class="htmlcontent"></rich-text>
+      <rich-text nodes="{{info.content}}" class="htmlcontent" ></rich-text>
     </view>
   </view>
 
@@ -30,7 +34,7 @@
     <!-- 获得联系 -->
     <view class="bottom-left" bindtap="getCall">
       <image class="icon-comment" src="../../images/联系.png" />
-      <text class="bottom-left-text">取得联系</text>
+      <text class="bottom-left-text">若有侵权行为，请联系👈</text>
     </view>
 
     <!-- 收藏功能 -->

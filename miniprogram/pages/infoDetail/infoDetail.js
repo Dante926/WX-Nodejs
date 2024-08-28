@@ -219,6 +219,7 @@ Page({
     const {
       call
     } = this.data.info
+    console.log(this.data.info);
     wx.showModal({
       title: '联系方式',
       content: call,
@@ -267,7 +268,7 @@ Page({
       const actualId = _id || id;
       const openid = wx.getStorageSync('openid')
       wx.request({
-        url: 'http://127.0.0.1:8082/getapi/pushcol',
+        // url: 'http://127.0.0.1:8082/getapi/pushcol',
         method: "POST",
         data: {
           id: actualId,
@@ -303,7 +304,7 @@ Page({
 
       const openid = wx.getStorageSync('openid');
       wx.request({
-        url: 'http://127.0.0.1:8082/getapi/delcol',
+        // url: 'http://127.0.0.1:8082/getapi/delcol',
         method: 'POST',
         data: {
           id: actualId,

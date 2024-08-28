@@ -15,7 +15,6 @@ Page({
     const {
       info
     } = e.currentTarget.dataset;
-    console.log(info);
     this.getSearch(info)
   },
 
@@ -36,8 +35,6 @@ Page({
         search: e.detail ? e.detail.value : e
       });
 
-      console.log('最后一次输入:', e.detail ? e.detail.value : e);
-
       // 从缓存中获取搜索记录
       let searchLog = wx.getStorageSync('searchLog') || [];
 
@@ -56,19 +53,23 @@ Page({
       });
 
       // 发起后端请求
-      const params = {
-        name: e.detail ? e.detail.value : e
-      };
-      ajax('/getapi/getsearch', 'post', params)
-        .then(result => {
-          const { data } = result.data;
+      const name = e.detail ? e.detail.value : e
+      wx.request({
+        url: 'http://127.0.0.1:8089/webapi/news/getsearch',
+        method: 'POST',
+        data: {
+          name,
+        },
+        success: (res => {
+          const {
+            data
+          } = res.data
           this.setData({
             searchRes: data
-          });
+          })
         })
-        .catch(error => {
-          console.error('Error fetching search results:', error);
-        });
+
+      })
 
     }, 800);
   },
@@ -91,9 +92,11 @@ Page({
     const {
       info
     } = e.currentTarget.dataset;
+    console.log(info);
+    const infoData = JSON.stringify(info)
     wx.navigateTo({
-      url: `../infoDetail/infoDetail?info=${JSON.stringify(info)}`,
-    })
+      url: `../infoDetail/infoDetail?info=${encodeURIComponent(JSON.stringify(infoData))}`,
+    });
   },
 
   onLoad(options) {
