@@ -1,25 +1,19 @@
 {
   "pages": [
-    "pages/reallogin/reallogin",
     "pages/index/index",
-    "pages/classify/classify",
-    "pages/collection/collection",
     "pages/my/my",
     "pages/login/myPublish/myPublish",
     "pages/login/myCollection/myCollection",
-    "pages/login/myInfo/myInfo",
     "pages/infoDetail/infoDetail",
     "pages/search/search",
     "pages/publish/publish",
-    "pages/classifyList/classifyList",
-    "pages/register/register",
     "pages/advice/advice"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fe2442",
-    "navigationBarTitleText": "智慧寻物",
+    "navigationBarTitleText": "新闻速览",
     "navigationBarTextStyle": "black"
   },
   "tabBar": {
@@ -30,18 +24,6 @@
         "selectedIconPath": "images/tabbar/主页 (1).png",
         "pagePath": "pages/index/index",
         "text": "首页"
-      },
-      {
-        "iconPath": "images/tabbar/分类.png",
-        "selectedIconPath": "images/tabbar/分类 (1).png",
-        "pagePath": "pages/classify/classify",
-        "text": "分类"
-      },
-      {
-        "iconPath": "images/tabbar/收藏.png",
-        "selectedIconPath": "images/tabbar/收藏 (1).png",
-        "pagePath": "pages/collection/collection",
-        "text": "收藏"
       },
       {
         "iconPath": "images/tabbar/个人.png",

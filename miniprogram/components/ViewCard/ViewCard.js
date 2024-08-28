@@ -10,6 +10,7 @@ Component({
       desc: String,
       publish_time: String,
       id:String
+      
     },
 
     handle: Boolean

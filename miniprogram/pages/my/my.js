@@ -10,18 +10,13 @@ Page({
     nickName: '',
     cellList: [{
         url: '../../images/my/发布.png',
-        text: '我的发布',
+        text: '我要发布',
         page: '../login/myPublish/myPublish'
       },
       {
         url: '../../images/my/收藏.png',
         text: '我的收藏',
         page: '../login/myCollection/myCollection'
-      },
-      {
-        url: '../../images/my/信息.png',
-        text: '我的信息',
-        page: "../login/myInfo/myInfo"
       },
       {
         url: '../../images/意见反馈.png',
@@ -146,7 +141,7 @@ Page({
   onShow() {
     if (typeof this.getTabBar === 'function' && this.getTabBar()) {
       this.getTabBar().setData({
-        select: 4
+        select: 1
       })
     }
   },

@@ -1,7 +1,8 @@
 // import { it } from 'element-plus/es/locale';
 import {
   ajax,
-  formatTime
+  formatTime,
+  editTimeFormat
 } from '../../utils/index';
 
 
@@ -12,7 +13,7 @@ Page({
    */
   data: {
     background: [],
-    tabList: ["寻主", "寻物"],
+    tabList: ["最新通知", "典型案例", "通知公告"],
     select: 0,
     list: [],
     login: false
@@ -22,17 +23,10 @@ Page({
     const {
       info
     } = e.currentTarget.dataset;
-    console.log(info.status);
-    if (info.status == 2) {
-      wx.showToast({
-        title: '该物品已被认领,若有疑惑请联系管理员...',
-        icon: 'none'
-      })
-      return;
-    }
+    const infoData = JSON.stringify(info)
     wx.navigateTo({
-      url: `../infoDetail/infoDetail?info=${JSON.stringify(info)}`,
-    })
+      url: `../infoDetail/infoDetail?info=${encodeURIComponent(JSON.stringify(infoData))}`,
+    });
   },
 
   toSearch() {
@@ -40,7 +34,9 @@ Page({
       url: '../search/search',
     })
   },
+
   getTab(e) {
+    console.log(e.detail);
     this.setData({
       select: e.detail
     })
@@ -50,54 +46,76 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    if (wx.getStorageSync('login_account')) {
-      const {
-        select
-      } = this.data;
 
-      this.setData({
-        login: !!wx.getStorageSync('login')
-      })
+    const {
+      select
+    } = this.data;
 
-      wx.request({
-        url: 'http://127.0.0.1:8082/getapi/getdata',
-        method: 'POST',
-        data: {
-          type: select,
-        },
-        success: (res) => {
-          const {
-            data
-          } = res;
-          // 确认 data.data 是一个对象数组，且包含 imgList 属性 将imgList字符串转变为真正的数组
-          const modifiedData = data.data.map(item => ({
-            ...item,
-            imgList: item.imgList.replace(/^\["(.*)"\]$/, '$1').split('","').map(url => url.trim()) // 使用正则表达式去除外部的引号
-          }));
-          this.setData({
-            list: modifiedData.map(item => {
-              return {
-                ...item,
-                time: formatTime(item.time)
-              }
-            })
-            /* 
-            map高阶函数，用于遍历数组中的每个item通过自己的方法将item中的某个值或者item本身处理后重新传入item中 
-            
-            这里的意义为，modifiedData中每个item的time都被处理了一遍
-            */
-          });
-        },
-        fail: (error) => {
-          console.error('Request failed:', error);
-        }
-      });
-      return;
-    } else {
-      wx.redirectTo({
-        url: '../reallogin/reallogin',
-      })
-    }
+    this.setData({
+      login: !!wx.getStorageSync('login')
+    })
+
+    /* wx.request({
+      url: 'http://127.0.0.1:8089/webapi/news/list',
+      method: 'get',
+      data: {
+        type: select,
+      },
+      success: (res) => {
+        const {
+          data
+        } = res;
+        // 确认 data.data 是一个对象数组，且包含 imgList 属性 将imgList字符串转变为真正的数组
+        const modifiedData = data.data.map(item => ({
+          ...item,
+          imgList: item.imgList.replace(/^\["(.*)"\]$/, '$1').split('","').map(url => url.trim()) // 使用正则表达式去除外部的引号
+        }));
+        this.setData({
+          list: modifiedData.map(item => {
+            return {
+              ...item,
+              time: formatTime(item.time)
+            }
+          })
+        });
+      },
+      fail: (error) => {
+        console.error('Request failed:', error);
+      }
+    }); */
+
+    // 获取新闻数据列表
+    wx.request({
+      url: 'http://127.0.0.1:8089/webapi/news/list',
+      method: 'GET',
+      data: {
+        type: select,
+      },
+      success: (res) => {
+        // 解构列表数据
+        const {
+          data
+        } = res.data;
+
+        // 将图片地址初始化
+        const modifiedData = data.map(item => ({
+          ...item,
+          imgList: `http://127.0.0.1:8089` + item.cover
+        }));
+
+        //将数据存储到data
+        this.setData({
+          list: modifiedData.map(item => {
+            return {
+              ...item,
+              editTime: editTimeFormat(item.editTime)
+            }
+          })
+        });
+        console.log(this.data.list);
+      }
+    })
+    return;
   },
 
   /**
@@ -118,15 +136,17 @@ Page({
     }
     ajax('/getapi/pullbanner', 'post')
       .then(result => {
-        console.log(result);
-        const {data} = result.data
-        console.log(data);
+        // console.log(result);
+        const {
+          data
+        } = result.data
+        // console.log(data);
         this.setData({
-          background:data
+          background: data
         })
-        console.log(this.data.background);
+        // console.log(this.data.background);
       })
-    this.onLoad();
+    // this.onLoad();
   },
 
   /**

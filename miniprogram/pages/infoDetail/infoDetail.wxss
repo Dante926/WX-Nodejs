@@ -27,19 +27,37 @@
 }
 
 .label {
-  width: 70rpx;
-  color: #999;
+  width: 120rpx;
   font-size: 26rpx;
   margin-right: 20rpx;
 }
 
+.label-time {
+  color: #666;
+  font-size: 26rpx;
+}
+
 .desc {
+  width: 100%;
   background-color: #fff;
   font-size: 36rpx;
   padding-top: 10rpx;
   display: flex;
   flex-wrap: wrap;
-  /* 如果内容超过一行，允许换行 */
+  padding-left: 15rpx;
+  font-size: 26rpx;
+}
+
+.desc-text1-contain {
+  width: 100%;
+  margin-top: 10rpx;
+  color: #666;
+  /* text-indent: 2em; */
+}
+
+.desc-text1-contain .htmlcontent img {
+  max-width: 80%; /* 使图片在容器内的宽度不超过 100% */
+  height: auto;    /* 保持图片的纵横比 */
 }
 
 .bottom {
@@ -113,8 +131,10 @@
   display: flex;
   margin-top: 20rpx;
   flex-direction: column;
-  max-height: 400rpx; /* 设置最大高度 */
-  overflow-y: scroll; /* 允许纵向滚动 */
+  max-height: 400rpx;
+  /* 设置最大高度 */
+  overflow-y: scroll;
+  /* 允许纵向滚动 */
 }
 
 .comment-item {

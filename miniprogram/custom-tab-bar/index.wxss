@@ -17,8 +17,8 @@
 }
 
 .tabbar-item .image{
-  width: 50rpx;
-  height: 50rpx;
+  width: 60rpx;
+  height: 60rpx;
 }
 
 .tabbar-item .tabbar-text{

@@ -62,9 +62,9 @@
 
 .lose-item .lose-image {
   margin-top: 10rpx;
-  width: 248rpx;
-  height: 248rpx;
-  min-width: 248rpx;
+  width: 198rpx;
+  height: 198rpx;
+  min-width: 198rpx;
   border-radius: 10rpx;
   transition: all 0.5s;
   -webkit-filter: drop-shadow(10rpx 10rpx 10rpx rgba(0, 0, 0, .5));
@@ -85,34 +85,30 @@
 
 .lose-content .name {
   font-weight: bold;
+  font-size: 28rpx;
+  margin-top: 10px; /* 设置上边距，调整为你需要的间隔 */
 }
 
-.lose-content .region,
-.date,
-.desc {
-  margin-top: 15rpx;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-.lose-content {
-  font-size: 32rpx;
+.lose-content .region {
+  font-size: 26rpx;
+  color: #666;
+  margin-top: 10px; /* 设置上边距，调整为你需要的间隔 */
 }
 
 .lose-content .publish-time {
-  margin-top: 30rpx;
-  margin-left: 230rpx;
   font-size: 26rpx;
   color: #666;
-  display: flex;
+  margin-top: 10px; /* 设置上边距，调整为你需要的间隔 */
 }
 
-.lose-content .desc {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  max-width: 400rpx;
+.lose-content {
+  display: flex;
+  justify-content: space-between; /* 使子元素在父容器中均匀分布 */
+}
+
+.lose-content-text {
+  flex: 1; /* 每个 text 元素占据1/3宽度 */
+  text-align: left; /* 文字左对齐 */
 }
 
 .lose-body {

@@ -18,7 +18,7 @@ Page({
     showModal: false,
     desc: '',
     img_url: '',
-    type:''
+    type: ''
   },
 
   // 弹窗中上传图片
@@ -326,61 +326,16 @@ Page({
     const {
       info
     } = options;
-    const type = JSON.parse(info).type
-    this.setData({
-      type
-    })
-    // 设置_id是为了能获取到评论区数据
-    const {
-      _id
-    } = JSON.parse(info)
-    this.setData({
-      _id
-    })
-    // ------------end-------------
-
-    let parsedInfo = JSON.parse(info); // 将 JSON 字符串解析为 JavaScript 对象
-    // 如果imgList是字符串则转变为真正的数组
-    if (typeof parsedInfo.imgList === 'string') {
-      parsedInfo.imgList = JSON.parse(parsedInfo.imgList); // 将字符串解析为数组
-      // 将更新后的 parsedInfo 存回 info 中并更新页面数据
+    try {
+      const decodedInfo = decodeURIComponent(info);
+      const parsedInfo = JSON.parse(decodedInfo);
       this.setData({
-        info: parsedInfo
-      });
-    } else {
-      this.setData({
-        info: parsedInfo
-      });
+        info: JSON.parse(parsedInfo)
+      })
+    } catch (error) {
+      console.error("解析 JSON 时出错:", error);
     }
-
-    const openid = wx.getStorageSync('openid');
-
-    // 查询是否有收藏标记
-    wx.request({
-      url: 'http://127.0.0.1:8082/getapi/getcol',
-      method: 'POST',
-      data: {
-        id: parsedInfo._id ? parsedInfo._id : parsedInfo.id,
-        openid,
-      },
-      success: (res) => {
-        let collectionIcon = this.data.collectionIcon;
-
-        // 如果有收藏标记
-        if (res.data.message == 'Bookmarked') {
-          let last = collectionIcon.pop(); // 将末尾元素删除存到last中
-          collectionIcon.unshift(last);
-          this.setData({
-            collectionIcon
-          });
-        }
-      }
-    });
-
-    this.getcommentdata();
-
   },
-
 
   /**
    * 生命周期函数--监听页面初次渲染完成

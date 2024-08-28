@@ -9,24 +9,6 @@ Component({
         type: 0
       },
       {
-        iconPath: "images/tabbar/分类.png",
-        selectedIconPath: "images/tabbar/分类 (1).png",
-        pagePath: "pages/classify/classify",
-        text: "分类",
-        type: 0
-      },
-      {
-        type: 1,
-        pagePath: "pages/publish/publish",
-      },
-      {
-        iconPath: "images/tabbar/收藏.png",
-        selectedIconPath: "images/tabbar/收藏 (1).png",
-        pagePath: "pages/collection/collection",
-        text: "收藏",
-        type: 0
-      },
-      {
         iconPath: "images/tabbar/个人.png",
         selectedIconPath: "images/tabbar/个人 (1).png",
         pagePath: "pages/my/my",

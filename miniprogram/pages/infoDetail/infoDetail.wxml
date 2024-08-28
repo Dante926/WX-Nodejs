@@ -1,57 +1,29 @@
 <view class="body">
   <!-- 轮播图 -->
   <swiper class="banner" indicator-dots="true" autoplay="true" interval="2000" duration="500">
-    <block wx:for="{{info.imgList}}" wx:key="*this">
-      <swiper-item>
-        <image class="banner-image" src="{{item}}" />
-      </swiper-item>
-    </block>
+    <swiper-item>
+      <image class="banner-image" src="{{info.imgList}}" />
+    </swiper-item>
   </swiper>
 
-  <!-- 物品名称 -->
-  <view class="name">{{info.name}}</view>
+  <!-- 新闻标题 -->
+  <view class="name">{{info.title}}</view>
 
   <!-- 详细信息 -->
   <view class="container">
     <view class="date item">
-      <text class="label">{{type == 0 ? '拾到': '丢失'}}时间</text>
-      <text>{{info.date}}</text>
-    </view>
-    <view class="region item">
-      <text class="label">{{type == 0 ? '拾到': '丢失'}}地点</text>
-      <text>{{info.region}}</text>
+      <text class="label">编辑时间:</text>
+      <text class="label-time">{{info.editTime}}</text>
     </view>
   </view>
-
 
   <!-- 描述信息 -->
   <view class="desc item">
-    <view class="desc-text1">详细描述：</view>
-    <view class="desc-text2">{{info.desc}}</view>
-  </view>
-
-  <!-- 评论区 -->
-  <view class="comment">
-    <view class="title">评论区</view>
-    <view class="comment-list">
-      <view class="comment-item" wx:for="{{commentList}}" wx:key="index">
-        <view class="comment-item-left">
-          <image class="avatar" src="{{item.avatarUrl}}" />
-          <view class="content">
-            <text class="nickname">{{item.nickName}}</text>
-            <text>{{item.content}}</text>
-          </view>
-        </view>
-        <view class="comment-item-right">
-          <text>{{item.time}}</text>
-        </view>
-      </view>
+    <view class="desc-text1">新闻内容：</view>
+    <view class="desc-text1-contain">
+      <rich-text nodes="{{info.content}}" class="htmlcontent"></rich-text>
     </view>
-
-    <textarea class="comment-textarea" placeholder="请输入评论内容" value="{{comment}}" bindinput="getcomment" />
-    <button class="comment-btn" type="primary" size="mini" bindtap="submitComment">发送</button>
   </view>
-
 
   <!-- 联系 认领 收藏/功能-->
   <view class="bottom">
@@ -61,42 +33,10 @@
       <text class="bottom-left-text">取得联系</text>
     </view>
 
-    <!-- 认领功能 -->
-    <!-- 待认领 -->
-    <view wx:if="{{info.status == 0}}" class="bottom-right confirm" bindtap="toConfirm">
-      <image src="../../images/认领.png" class="icon-collection" />
-      <text>去认领</text>
-    </view>
-    <!-- 认领审核状态 -->
-    <view wx:else="" class="bottom-right confirm" bindtap="toConfirm">
-      <image src="../../images/审核中.png" class="icon-collection" />
-      <text wx:if="{{info.status == 1}}">审核中</text>
-      <text wx:else="{{info.status == 2}}">已认领</text>
-    </view>
-
-
     <!-- 收藏功能 -->
     <view class="bottom-right" bindtap="toCollection">
       <image src="{{collectionIcon[0]}}" class="icon-collection" />
       <text>收藏</text>
-    </view>
-  </view>
-
-  <!-- 背景遮罩 -->
-  <view class="modal-overlay" wx:if="{{showModal}}" bindtap="hideModal"></view>
-
-  <!-- 认领弹窗 -->
-  <view class="modal" wx:if="{{showModal}}">
-    <view class="label">信息描述:</view>
-    <textarea class="textarea" placeholder="请输入描述内容" value="{{desc}}" bindinput="getDesc" />
-    <view class="label">相关证明:</view>
-    <button class="upload-btn" wx:if="{{img_url.length === 0 }}" bindtap='uploadImg'>上传</button>
-    <image class="upload-img" wx:else src="{{img_url}}" />
-
-    <!-- 弹窗操作 -->
-    <view class="btn-list">
-      <button bindtap="toConfirm" size="mini" type="warn">取消</button>
-      <button bindtap="submitmodal" size="mini" type="primary">确定</button>
     </view>
   </view>
 </view>
