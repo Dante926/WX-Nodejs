@@ -1,7 +1,8 @@
 // pages/infoDetail/infoDetail.js
 import {
   ajax,
-  formatTime
+  formatTime,
+  axios
 } from '../../utils/index'
 Page({
 
@@ -163,6 +164,7 @@ Page({
       })
   },
 
+  // 发送评论
   async submitComment() {
     const {
       comment,
@@ -208,6 +210,7 @@ Page({
     }
   },
 
+  // 获取输入框评论区内容
   getcomment(e) {
     this.setData({
       comment: e.detail.value
@@ -252,71 +255,53 @@ Page({
     // 收藏
     if (collectionIcon[0] === '../../images/收藏红.png') {
       const {
-        _id,
         id,
-        type,
-        classify1,
-        classify2,
-        name,
-        date,
-        region,
-        call,
-        desc,
-        imgList,
-        time
+        _id
       } = info
       const actualId = _id || id;
-      const openid = wx.getStorageSync('openid')
-      wx.request({
-        // url: 'http://127.0.0.1:8082/getapi/pushcol',
-        method: "POST",
-        data: {
-          id: actualId,
-          type,
-          classify1,
-          classify2,
-          name,
-          date,
-          region,
-          call,
-          desc,
-          imgList,
-          time,
-          openid
-        },
-        success: (res) => {
-          if (res.data.message == 'Success') {
+      const params = {
+        id: actualId,
+        openid: wx.getStorageSync('openid')
+      }
+      axios('/webapi/news/ifcollection', 'POST', params)
+        .then(res => {
+          if (res.data.message == '添加收藏成功') {
             wx.showToast({
-              title: '收藏成功',
-              icon: 'success'
+              title: '添加收藏成功',
+              icon: 'none'
+            })
+          } else {
+            wx.showToast({
+              title: '添加收藏失败,或请先登录微信账号',
+              icon: 'none'
             })
           }
-        }
-      })
+        })
     } else {
       // 取消收藏
       const {
         _id,
         id
       } = info;
-
       const actualId = _id || id; // 使用逻辑或运算符获取真正存在的 id
-
-      const openid = wx.getStorageSync('openid');
-      wx.request({
-        // url: 'http://127.0.0.1:8082/getapi/delcol',
-        method: 'POST',
-        data: {
-          id: actualId,
-          openid,
-        },
-        success: (res) => {
-          wx.showToast({
-            title: '取消收藏',
-            icon: 'success'
-          })
-        }
-      })
+      const params = {
+        id: actualId,
+        openid: wx.getStorageSync('openid')
+      }
+      axios('/webapi/news/ifcollection', 'post', params)
+        .then(res => {
+          if (res.data.message == '取消收藏成功') {
+            wx.showToast({
+              title: '取消收藏成功',
+              icon:'none'
+            })
+          } else {
+            wx.showToast({
+              title: '取消收藏失败',
+              icon: 'none'
+            })
+          }
+        })
     }
   },
 
@@ -333,6 +318,25 @@ Page({
       this.setData({
         info: JSON.parse(parsedInfo)
       })
+      // 查看该新闻是否被收藏
+      const params = {
+        openid: wx.getStorageSync('openid'),
+        id: this.data.info.id
+      }
+      axios('/webapi/news/exitcollection', 'POST', params)
+        .then(res => {
+          const {
+            message
+          } = res.data
+          if (message == '已收藏') {
+            let collectionIcon = this.data.collectionIcon;
+            let last = collectionIcon.pop(); // 将末尾元素删除存到last中
+            collectionIcon.unshift(last);
+            this.setData({
+              collectionIcon
+            });
+          }
+        })
     } catch (error) {
       console.error("解析 JSON 时出错:", error);
     }
