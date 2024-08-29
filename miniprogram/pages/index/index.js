@@ -13,7 +13,7 @@ Page({
    */
   data: {
     background: [],
-    tabList: ["最新通知", "典型案例", "通知公告"],
+    tabList: ["全部", "最新通知", "典型案例", "通知公告"],
     select: 0,
     list: [],
     login: false

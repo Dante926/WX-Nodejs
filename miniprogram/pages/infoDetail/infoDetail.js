@@ -256,12 +256,15 @@ Page({
     if (collectionIcon[0] === '../../images/收藏红.png') {
       const {
         id,
-        _id
+        _id,
+        category,
       } = info
+      console.log(info);
       const actualId = _id || id;
       const params = {
         id: actualId,
-        openid: wx.getStorageSync('openid')
+        openid: wx.getStorageSync('openid'),
+        category
       }
       axios('/webapi/news/ifcollection', 'POST', params)
         .then(res => {
@@ -281,19 +284,21 @@ Page({
       // 取消收藏
       const {
         _id,
-        id
+        id,
+        category
       } = info;
       const actualId = _id || id; // 使用逻辑或运算符获取真正存在的 id
       const params = {
         id: actualId,
-        openid: wx.getStorageSync('openid')
+        openid: wx.getStorageSync('openid'),
+        category
       }
       axios('/webapi/news/ifcollection', 'post', params)
         .then(res => {
           if (res.data.message == '取消收藏成功') {
             wx.showToast({
               title: '取消收藏成功',
-              icon:'none'
+              icon: 'none'
             })
           } else {
             wx.showToast({

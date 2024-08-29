@@ -1,11 +1,15 @@
 // pages/collection/collection.js
+import {
+  axios,
+  editTimeFormat
+} from "../../../utils/index"
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    tabList: ["寻主", "寻物"],
+    tabList: ["全部", "最新通知", "典型案例", "通知公告"],
     list: [],
     select: 0,
     login: true
@@ -24,39 +28,44 @@ Page({
     const {
       info
     } = e.currentTarget.dataset;
+    const infoData = JSON.stringify(info)
     wx.navigateTo({
-      url: `../../infoDetail/infoDetail?info=${JSON.stringify(info)}`,
-    })
+      url: `../../infoDetail/infoDetail?info=${encodeURIComponent(JSON.stringify(infoData))}`,
+    });
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
+  // 获取收藏列表
   onLoad(options) {
-    const {
-      select
-    } = this.data
-    wx.request({
-      url: 'http://127.0.0.1:8082/getapi/getcoldata',
-      method: 'POST',
-      data: {
-        openid: wx.getStorageSync('openid'),
-        type: select,
-      },
-      success: (res) => {
+    this.setData({
+      list: ''
+    })
+
+    // 请求参数
+    const params = {
+      category: this.data.select,
+      openid: wx.getStorageSync('openid')
+    }
+
+    // 请求链接
+    axios('/webapi/news/personcol', 'POST', params)
+      .then(res => {
         const {
           data
         } = res.data
-        // 将图片数组字符串转变为真正的数组对象
+        // 将返回的图片添加请求路径
         const modifiedData = data.map(item => ({
           ...item,
-          imgList: item.imgList.replace(/^\["(.*)"\]$/, '$1').split('","').map(url => url.trim()) // 使用正则表达式去除外部的引号
+          imgList: 'http://127.0.0.1:8089' + item.cover,
+          editTime: editTimeFormat(item.editTime)
         }));
+        // 返回this.data数组
         this.setData({
           list: modifiedData,
         })
-      }
-    })
+      })
   },
 
   /**
@@ -75,7 +84,6 @@ Page({
         select: 3
       })
     }
-    this.onLoad();
   },
 
   /**
